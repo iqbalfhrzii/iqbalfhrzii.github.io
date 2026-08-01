@@ -124,20 +124,20 @@ function PlanetSystem() {
 
   // Keyframes Desktop (Bumi sebagai pusat)
   const desktopKeyframes = [
-    { x: 3.5, y: 0,    z: 0,   scale: 0.024, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
-    { x: 0,   y: 3.0,  z: 1,   scale: 0.040, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (muncul 1/3)
-    { x: -2.8,y: 0,    z: 1.0, scale: 0.018, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (skills di kanan)
-    { x: 0,   y: 0,    z: 2.5, scale: 0.030, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah, zoom in
-    { x: 0,   y: -3.0, z: 1,   scale: 0.040, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
+    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
+    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (muncul 1/3)
+    { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (skills di kanan)
+    { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah, zoom in
+    { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
   ];
 
   // Keyframes Mobile
   const mobileKeyframes = [
-    { x: 0.9, y: 0,    z: 0,   scale: 0.012, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah (terlihat utuh & penuh)
-    { x: 0,   y: 2.8,  z: 0.5, scale: 0.026, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (diataskan lagi)
-    { x: -1.4,y: 0,    z: 0.8, scale: 0.022, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (setengah bumi peeking)
-    { x: 0,   y: 0,    z: 1.5, scale: 0.020, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah
-    { x: 0,   y: -3.0, z: 0.5, scale: 0.028, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
+    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
+    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas
+    { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah
+    { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah
+    { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
   ];
 
   const keyframes = isMobile ? mobileKeyframes : desktopKeyframes;
