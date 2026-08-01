@@ -126,25 +126,25 @@ function PlanetSystem() {
 
   // Keyframes Desktop
   const desktopKeyframes = [
-    // Section 1 (Hero): Moon only, in center
-    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
-    // Section 2 (About): Moon only
-    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
+    // Section 1 (Hero): Moon only, in center (Frozen)
+    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
+    // Section 2 (About): Moon only (Frozen)
+    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
     // Section 3 (Skills): Earth appears, Moon orbits
-    { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
     // Section 4 (Projects): Earth + Moon
-    { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
-    // Section 5 (Contact): Bumi tidak muter ke bawah (rotX dipertahankan), letaknya aja di y: -3.0
-    { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
+    // Section 5 (Contact): Bumi tidak muter ke bawah
+    { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
   ];
 
   // Keyframes Mobile
   const mobileKeyframes = [
-    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
-    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
-    { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
-    { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
-    { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
+    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
+    { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
+    { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
+    { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
   ];
 
   const keyframes = isMobile ? mobileKeyframes : desktopKeyframes;
@@ -201,9 +201,10 @@ function PlanetSystem() {
 
     // Continuous Rotations
     earthRotRef.current += delta * 0.05;
-    systemRef.current.rotation.y = earthRotRef.current;
+    earthRef.current.rotation.y = earthRotRef.current; // Rotasi hanya pada Bumi
 
-    moonRotRef.current += delta * 0.3;
+    const currentOrbitSpeed = lerp(from.orbitSpeed, to.orbitSpeed, t);
+    moonRotRef.current += delta * currentOrbitSpeed;
     orbitRef.current.rotation.y = moonRotRef.current;
   });
 
