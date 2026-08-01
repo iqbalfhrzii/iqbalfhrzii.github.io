@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, ScrollControls, Scroll, useScroll } from '@react-three/drei';
+import { useGLTF, ScrollControls, Scroll, useScroll, Preload } from '@react-three/drei';
 
 /* ================================================================
    MANUAL STARS — 3000 partikel bintang dengan animasi scroll
@@ -206,19 +206,26 @@ function Moon() {
 export default function MoonScene() {
   return (
     <div className="w-full h-screen bg-[#050505] overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 8], fov: 45, far: 5000 }}>
+      {/* Optimization: Cap DPR for performance, use high-performance GL context */}
+      <Canvas
+        dpr={[1, 1.5]}
+        gl={{ powerPreference: 'high-performance', antialias: false }}
+        camera={{ position: [0, 0, 8], fov: 45, far: 5000 }}
+      >
         {/* Lighting */}
         <ambientLight intensity={0.2} />
         <directionalLight position={[5, 3, 5]} intensity={2.5} color="#ffffff" />
         <directionalLight position={[-5, -3, -5]} intensity={0.5} color="#4f8aff" />
 
-        <ScrollControls pages={5} damping={0.12}>
-          <NebulaSkybox />
-          {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
-          <ManualStars count={1800} />
-          <Moon />
+        {/* Suspense delays rendering until all GLB models are loaded */}
+        <React.Suspense fallback={null}>
+          <ScrollControls pages={5} damping={0.12}>
+            <NebulaSkybox />
+            {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
+            <ManualStars count={1800} />
+            <Moon />
 
-          <Scroll html style={{ width: '100%' }}>
+            <Scroll html style={{ width: '100%' }}>
 
             {/* ===== SECTION 1 — HERO ===== */}
             <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
@@ -341,6 +348,8 @@ export default function MoonScene() {
 
           </Scroll>
         </ScrollControls>
+        </React.Suspense>
+        <Preload all />
       </Canvas>
     </div>
   );
