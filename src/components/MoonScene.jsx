@@ -111,7 +111,7 @@ function NebulaSkybox() {
    PLANET SYSTEM — Bumi sebagai pusat & Bulan yang mengorbit
    ================================================================ */
 function PlanetSystem() {
-  const { scene: earthScene } = useGLTF('/img/3d/Earth_1_12756.glb');
+  const { scene: earthScene } = useGLTF('/img/3d/earth.glb');
   const { scene: moonScene } = useGLTF('/img/3d/moon.glb');
   const scroll = useScroll();
   const systemRef = useRef();
@@ -194,8 +194,8 @@ function PlanetSystem() {
 
   return (
     <group ref={systemRef} scale={isMobile ? 0.010 : 0.020} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
-      {/* Bumi sebagai pusat - Scale di set 0.1 karena model NASA radiusnya 500 (10x lebih besar) */}
-      <primitive object={earthScene} scale={0.1} />
+      {/* Bumi sebagai pusat */}
+      <primitive object={earthScene} scale={1} />
       
       {/* Grup Orbit untuk Bulan */}
       <group ref={orbitRef}>
@@ -365,6 +365,6 @@ export default function MoonScene() {
 }
 
 // Preload
-useGLTF.preload('/img/3d/Earth_1_12756.glb');
+useGLTF.preload('/img/3d/earth.glb');
 useGLTF.preload('/img/3d/moon.glb');
 useGLTF.preload('/img/3d/nebula_skybox_16k.glb');
