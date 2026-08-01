@@ -116,28 +116,35 @@ function PlanetSystem() {
   const scroll = useScroll();
   const systemRef = useRef();
   const orbitRef = useRef();
+  const earthRef = useRef();
+  const moonRef = useRef();
   const earthRotRef = useRef(0);
   const moonRotRef = useRef(0);
   const { viewport } = useThree();
 
   const isMobile = viewport.width < 7;
 
-  // Keyframes Desktop (Bumi sebagai pusat)
+  // Keyframes Desktop
   const desktopKeyframes = [
-    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
-    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (muncul 1/3)
-    { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (skills di kanan)
-    { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah, zoom in
-    { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
+    // Section 1 (Hero): Moon only, in center
+    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
+    // Section 2 (About): Moon only
+    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
+    // Section 3 (Skills): Earth appears, Moon orbits
+    { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    // Section 4 (Projects): Earth + Moon
+    { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    // Section 5 (Contact): Bumi tidak muter ke bawah (rotX dipertahankan), letaknya aja di y: -3.0
+    { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
   ];
 
   // Keyframes Mobile
   const mobileKeyframes = [
-    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
-    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas
-    { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah
-    { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah
-    { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
+    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
+    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0] },
+    { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
+    { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40] },
   ];
 
   const keyframes = isMobile ? mobileKeyframes : desktopKeyframes;
@@ -147,9 +154,8 @@ function PlanetSystem() {
   }
 
   useFrame((state, delta) => {
-    if (!systemRef.current || !orbitRef.current) return;
+    if (!systemRef.current || !orbitRef.current || !earthRef.current || !moonRef.current) return;
 
-    // Safety guard untuk scroll.offset
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
 
     const totalSections = 5;
@@ -157,7 +163,6 @@ function PlanetSystem() {
     const sectionIndex = Math.min(Math.floor(sectionFloat), totalSections - 2);
     const rawT = sectionFloat - sectionIndex;
 
-    // Easing Plateau (Pause)
     let t = 0;
     if (rawT <= 0.2) {
       t = 0;
@@ -165,13 +170,13 @@ function PlanetSystem() {
       t = 1;
     } else {
       const p = (rawT - 0.2) / 0.6;
-      t = p * p * (3 - 2 * p); // Smoothstep curve
+      t = p * p * (3 - 2 * p);
     }
 
     const from = keyframes[sectionIndex] || keyframes[0];
     const to = keyframes[sectionIndex + 1] || keyframes[1];
 
-    // Smooth interpolasi posisi dan skala untuk System (Bumi)
+    // Master System position, scale, rotation
     systemRef.current.position.x = lerp(from.x, to.x, t);
     systemRef.current.position.y = lerp(from.y, to.y, t);
     systemRef.current.position.z = lerp(from.z, to.z, t);
@@ -179,31 +184,41 @@ function PlanetSystem() {
     const s = lerp(from.scale, to.scale, t);
     systemRef.current.scale.set(s, s, s);
 
-    // Rotasi transisi (pitch/roll Bumi mengikuti scroll)
     systemRef.current.rotation.x = lerp(from.rotX, to.rotX, t);
     systemRef.current.rotation.z = lerp(from.rotZ, to.rotZ, t);
 
-    // 1. Rotasi Bumi pada porosnya secara konstan
+    // Dynamic Earth & Moon scales
+    const eS = lerp(from.earthScale, to.earthScale, t);
+    earthRef.current.scale.set(eS, eS, eS);
+
+    const mS = lerp(from.moonScale, to.moonScale, t);
+    moonRef.current.scale.set(mS, mS, mS);
+
+    // Dynamic Moon Orbit Position
+    moonRef.current.position.x = lerp(from.moonPos[0], to.moonPos[0], t);
+    moonRef.current.position.y = lerp(from.moonPos[1], to.moonPos[1], t);
+    moonRef.current.position.z = lerp(from.moonPos[2], to.moonPos[2], t);
+
+    // Continuous Rotations
     earthRotRef.current += delta * 0.05;
     systemRef.current.rotation.y = earthRotRef.current;
 
-    // 2. Revolusi (Orbit) Bulan mengelilingi Bumi secara real-time
-    moonRotRef.current += delta * 0.3; // Kecepatan orbit bulan
+    moonRotRef.current += delta * 0.3;
     orbitRef.current.rotation.y = moonRotRef.current;
   });
 
   return (
     <group ref={systemRef} scale={isMobile ? 0.010 : 0.020} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
-      {/* Bumi sebagai pusat */}
-      <primitive object={earthScene} scale={1} />
+      {/* Bumi */}
+      <group ref={earthRef}>
+        <primitive object={earthScene} scale={1} />
+      </group>
       
-      {/* Grup Orbit untuk Bulan */}
+      {/* Orbit Bulan */}
       <group ref={orbitRef}>
-        <primitive 
-          object={moonScene} 
-          scale={0.4} // Bulan berukuran ~40% dari Bumi (relatif ke radius 50)
-          position={[120, 10, -40]} // Jarak orbit dari Bumi
-        />
+        <group ref={moonRef}>
+          <primitive object={moonScene} scale={1} />
+        </group>
       </group>
     </group>
   );
