@@ -108,32 +108,36 @@ function NebulaSkybox() {
 }
 
 /* ================================================================
-   MOON — Model 3D bulan dengan koreografi scroll 5 section
+   PLANET SYSTEM — Bumi sebagai pusat & Bulan yang mengorbit
    ================================================================ */
-function Moon() {
-  const { scene } = useGLTF('/img/3d/moon.glb');
+function PlanetSystem() {
+  const { scene: earthScene } = useGLTF('/img/3d/earth.glb');
+  const { scene: moonScene } = useGLTF('/img/3d/moon.glb');
   const scroll = useScroll();
-  const moonRef = useRef();
+  const systemRef = useRef();
+  const orbitRef = useRef();
+  const earthRotRef = useRef(0);
+  const moonRotRef = useRef(0);
   const { viewport } = useThree();
 
   const isMobile = viewport.width < 7;
 
-  // Keyframes Desktop
+  // Keyframes Desktop (Bumi sebagai pusat)
   const desktopKeyframes = [
-    { x: 4,   y: 0,    z: 0,   scale: 0.026, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah, lebih gede, diam
-    { x: 0,   y: 3.4,  z: 1,   scale: 0.045, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (muncul 1/3)
-    { x: -3.2,y: 0,    z: 1.0, scale: 0.020, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (skills di kanan)
-    { x: 0,   y: 0,    z: 3,   scale: 0.035, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah, zoom in
-    { x: 0,   y: -3.4, z: 1,   scale: 0.045, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah (memutar 180°)
+    { x: 3.5, y: 0,    z: 0,   scale: 0.024, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah
+    { x: 0,   y: 3.0,  z: 1,   scale: 0.040, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (muncul 1/3)
+    { x: -2.8,y: 0,    z: 1.0, scale: 0.018, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (skills di kanan)
+    { x: 0,   y: 0,    z: 2.5, scale: 0.030, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah, zoom in
+    { x: 0,   y: -3.0, z: 1,   scale: 0.040, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
   ];
 
   // Keyframes Mobile
   const mobileKeyframes = [
-    { x: 0.9, y: 0,    z: 0,   scale: 0.013, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah (terlihat utuh & penuh)
-    { x: 0,   y: 3.2,  z: 0.5, scale: 0.030, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (diataskan lagi)
-    { x: -1.6,y: 0,    z: 0.8, scale: 0.025, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (setengah bulan peeking)
-    { x: 0,   y: 0,    z: 1.8, scale: 0.022, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah
-    { x: 0,   y: -3.4, z: 0.5, scale: 0.032, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah (dibawahkan lagi)
+    { x: 0.9, y: 0,    z: 0,   scale: 0.012, rotX: 0,                 rotZ: 0 },                  // Section 1: kanan tengah (terlihat utuh & penuh)
+    { x: 0,   y: 2.8,  z: 0.5, scale: 0.026, rotX: Math.PI,           rotZ: 0 },                  // Section 2: tengah atas (diataskan lagi)
+    { x: -1.4,y: 0,    z: 0.8, scale: 0.022, rotX: 0,                 rotZ: Math.PI * 0.1 },      // Section 3: kiri tengah (setengah bumi peeking)
+    { x: 0,   y: 0,    z: 1.5, scale: 0.020, rotX: Math.PI * 0.15,    rotZ: 0 },                  // Section 4: tengah
+    { x: 0,   y: -3.0, z: 0.5, scale: 0.028, rotX: -Math.PI,          rotZ: Math.PI * 0.2 },      // Section 5: tengah bawah
   ];
 
   const keyframes = isMobile ? mobileKeyframes : desktopKeyframes;
@@ -142,61 +146,66 @@ function Moon() {
     return a + (b - a) * t;
   }
 
-  // Simpan rotasi Y secara kumulatif
-  const rotYRef = useRef(0);
-
   useFrame((state, delta) => {
-    if (!moonRef.current) return;
+    if (!systemRef.current || !orbitRef.current) return;
 
-    // Safety guard untuk mencegah TypeError jika scroll.offset belum terinisialisasi
+    // Safety guard untuk scroll.offset
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
 
     const totalSections = 5;
     const sectionFloat = Math.max(0, Math.min(offset * (totalSections - 1), totalSections - 1));
     const sectionIndex = Math.min(Math.floor(sectionFloat), totalSections - 2);
-    const rawT = sectionFloat - sectionIndex; // 0 → 1 dalam section tersebut
+    const rawT = sectionFloat - sectionIndex;
 
-    // Easing Plateau (Pause):
-    // rawT 0.0 - 0.2: Diam di section awal (t = 0)
-    // rawT 0.2 - 0.8: Meluncur mulus di pertengahan scroll (t 0 -> 1 dengan smoothstep)
-    // rawT 0.8 - 1.0: Diam di section tujuan (t = 1)
+    // Easing Plateau (Pause)
     let t = 0;
     if (rawT <= 0.2) {
       t = 0;
     } else if (rawT >= 0.8) {
       t = 1;
     } else {
-      const p = (rawT - 0.2) / 0.6; // 0 → 1
+      const p = (rawT - 0.2) / 0.6;
       t = p * p * (3 - 2 * p); // Smoothstep curve
     }
 
     const from = keyframes[sectionIndex] || keyframes[0];
     const to = keyframes[sectionIndex + 1] || keyframes[1];
 
-    // Smooth interpolasi posisi dan skala
-    moonRef.current.position.x = lerp(from.x, to.x, t);
-    moonRef.current.position.y = lerp(from.y, to.y, t);
-    moonRef.current.position.z = lerp(from.z, to.z, t);
+    // Smooth interpolasi posisi dan skala untuk System (Bumi)
+    systemRef.current.position.x = lerp(from.x, to.x, t);
+    systemRef.current.position.y = lerp(from.y, to.y, t);
+    systemRef.current.position.z = lerp(from.z, to.z, t);
 
     const s = lerp(from.scale, to.scale, t);
-    moonRef.current.scale.set(s, s, s);
+    systemRef.current.scale.set(s, s, s);
 
-    // Rotasi idle pada Y (selalu berputar pelan)
-    rotYRef.current += delta * 0.05;
-    moonRef.current.rotation.y = rotYRef.current;
+    // Rotasi transisi (pitch/roll Bumi mengikuti scroll)
+    systemRef.current.rotation.x = lerp(from.rotX, to.rotX, t);
+    systemRef.current.rotation.z = lerp(from.rotZ, to.rotZ, t);
 
-    // Rotasi X dan Z mengikuti keyframe transisi t
-    moonRef.current.rotation.x = lerp(from.rotX, to.rotX, t);
-    moonRef.current.rotation.z = lerp(from.rotZ, to.rotZ, t);
+    // 1. Rotasi Bumi pada porosnya secara konstan
+    earthRotRef.current += delta * 0.05;
+    systemRef.current.rotation.y = earthRotRef.current;
+
+    // 2. Revolusi (Orbit) Bulan mengelilingi Bumi secara real-time
+    moonRotRef.current += delta * 0.3; // Kecepatan orbit bulan
+    orbitRef.current.rotation.y = moonRotRef.current;
   });
 
   return (
-    <primitive
-      ref={moonRef}
-      object={scene}
-      scale={isMobile ? 0.013 : 0.026}
-      position={isMobile ? [0.9, 0, 0] : [4, 0, 0]}
-    />
+    <group ref={systemRef} scale={isMobile ? 0.012 : 0.024} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
+      {/* Bumi sebagai pusat */}
+      <primitive object={earthScene} scale={1} />
+      
+      {/* Grup Orbit untuk Bulan */}
+      <group ref={orbitRef}>
+        <primitive 
+          object={moonScene} 
+          scale={0.4} // Bulan berukuran ~40% dari Bumi
+          position={[120, 10, -40]} // Jarak orbit dari Bumi
+        />
+      </group>
+    </group>
   );
 }
 
@@ -223,7 +232,7 @@ export default function MoonScene() {
             <NebulaSkybox />
             {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
             <ManualStars count={1800} />
-            <Moon />
+            <PlanetSystem />
 
             <Scroll html style={{ width: '100%' }}>
 
@@ -356,5 +365,6 @@ export default function MoonScene() {
 }
 
 // Preload
+useGLTF.preload('/img/3d/earth.glb');
 useGLTF.preload('/img/3d/moon.glb');
 useGLTF.preload('/img/3d/nebula_skybox_16k.glb');
