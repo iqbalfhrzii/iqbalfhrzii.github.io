@@ -192,11 +192,21 @@ function PlanetSystem() {
     systemRef.current.rotation.x = lerp(from.rotX, to.rotX, t);
     systemRef.current.rotation.z = lerp(from.rotZ, to.rotZ, t);
 
-    // Dynamic Earth & Moon scales
-    const eS = lerp(from.earthScale, to.earthScale, t);
+    // Dynamic Earth & Moon scales with custom Anti-Clipping curves for About -> Skills transition
+    let eS = lerp(from.earthScale, to.earthScale, t);
+    let mS = lerp(from.moonScale, to.moonScale, t);
+    
+    if (sectionIndex === 1) {
+      // 1. Tunda kemunculan Bumi sampai Bulan sudah agak menjauh (mulai dari t = 0.3)
+      const earthP = Math.max(0, (t - 0.3) / 0.7);
+      eS = lerp(from.earthScale, to.earthScale, earthP);
+      
+      // 2. Percepat penyusutan Bulan di paruh pertama transisi (sampai t = 0.5)
+      const moonP = Math.min(1, t / 0.5);
+      mS = lerp(from.moonScale, to.moonScale, moonP);
+    }
+    
     earthRef.current.scale.set(eS, eS, eS);
-
-    const mS = lerp(from.moonScale, to.moonScale, t);
     moonRef.current.scale.set(mS, mS, mS);
 
     // Dynamic Moon Orbit Position
