@@ -193,15 +193,15 @@ function PlanetSystem() {
   });
 
   return (
-    <group ref={systemRef} scale={isMobile ? 0.012 : 0.024} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
-      {/* Bumi sebagai pusat */}
-      <primitive object={earthScene} scale={1} />
+    <group ref={systemRef} scale={isMobile ? 0.010 : 0.020} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
+      {/* Bumi sebagai pusat - Scale di set 0.1 karena model NASA radiusnya 500 (10x lebih besar) */}
+      <primitive object={earthScene} scale={0.1} />
       
       {/* Grup Orbit untuk Bulan */}
       <group ref={orbitRef}>
         <primitive 
           object={moonScene} 
-          scale={0.4} // Bulan berukuran ~40% dari Bumi
+          scale={0.4} // Bulan berukuran ~40% dari Bumi (relatif ke radius 50)
           position={[120, 10, -40]} // Jarak orbit dari Bumi
         />
       </group>
