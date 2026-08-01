@@ -126,10 +126,10 @@ function PlanetSystem() {
 
   // Keyframes Desktop
   const desktopKeyframes = [
-    // Section 1 (Hero): Moon only, in center (Frozen)
-    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
-    // Section 2 (About): Moon only (Frozen)
-    { x: 0,   y: 3.0,  z: 1,   scale: 0.034, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
+    // Section 1 (Hero): Moon only, in right center (Slow rotation)
+    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0.05 },
+    // Section 2 (About): Moon stays in same position as Hero
+    { x: 3.5, y: 0,    z: 0,   scale: 0.020, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0.05 },
     // Section 3 (Skills): Earth appears, Moon orbits
     { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
     // Section 4 (Projects): Earth + Moon
@@ -140,10 +140,15 @@ function PlanetSystem() {
 
   // Keyframes Mobile
   const mobileKeyframes = [
-    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
-    { x: 0,   y: 2.8,  z: 0.5, scale: 0.022, rotX: Math.PI,        rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0 },
+    // Section 1 (Hero)
+    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0.05 },
+    // Section 2 (About): Stays in same position
+    { x: 0.9, y: 0,    z: 0,   scale: 0.010, rotX: 0,              rotZ: 0,             earthScale: 0.001, moonScale: 1.0, moonPos: [0, 0, 0], orbitSpeed: 0.05 },
+    // Section 3 (Skills)
     { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
+    // Section 4 (Projects)
     { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
+    // Section 5 (Contact)
     { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [120, 10, -40], orbitSpeed: 0.3 },
   ];
 
