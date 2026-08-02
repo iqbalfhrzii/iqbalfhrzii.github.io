@@ -21,8 +21,14 @@ export default function Navbar({ currentView, setCurrentView }) {
       return;
     }
 
-    // If currently on About page and trying to go to a home section
-    if (currentView === 'about') {
+    if (linkName === 'Skills') {
+      setCurrentView('skills');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // If currently on About or Skills page and trying to go to a home section
+    if (currentView !== 'home') {
       setCurrentView('home');
       // Give MoonScene time to mount before scrolling
       setTimeout(() => {
@@ -63,7 +69,7 @@ export default function Navbar({ currentView, setCurrentView }) {
             <li key={link.name}>
               <button
                 onClick={() => handleScrollTo(link.page, link.name)}
-                className={`font-body text-xs lg:text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 border-none bg-transparent cursor-pointer ${currentView === 'about' && link.name === 'About' ? 'text-white bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
+                className={`font-body text-xs lg:text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 border-none bg-transparent cursor-pointer ${currentView === link.name.toLowerCase() ? 'text-white bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
               >
                 {link.name}
               </button>
@@ -104,7 +110,7 @@ export default function Navbar({ currentView, setCurrentView }) {
             <button
               key={link.name}
               onClick={() => handleScrollTo(link.page, link.name)}
-              className={`font-body text-base font-medium text-left py-2 px-3 rounded-lg transition-colors border-none bg-transparent cursor-pointer ${currentView === 'about' && link.name === 'About' ? 'text-white bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+              className={`font-body text-base font-medium text-left py-2 px-3 rounded-lg transition-colors border-none bg-transparent cursor-pointer ${currentView === link.name.toLowerCase() ? 'text-white bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
             >
               {link.name}
             </button>

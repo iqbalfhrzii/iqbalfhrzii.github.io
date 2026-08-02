@@ -244,7 +244,7 @@ function PlanetSystem({ isAbout }) {
    MAIN SCENE — Menggabungkan semua elemen 3D + HTML Overlay
    ================================================================ */
 export default function MoonScene({ currentView }) {
-  const isAbout = currentView === 'about';
+  const isOverlay = currentView !== 'home';
 
   return (
     <div className="w-full h-screen bg-[#050505] overflow-hidden">
@@ -261,13 +261,13 @@ export default function MoonScene({ currentView }) {
 
         {/* Suspense delays rendering until all GLB models are loaded */}
         <React.Suspense fallback={null}>
-          <ScrollControls pages={5} damping={0.12} enabled={!isAbout}>
+          <ScrollControls pages={5} damping={0.12} enabled={!isOverlay}>
             <NebulaSkybox />
             {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
             <ManualStars count={1800} />
-            <PlanetSystem isAbout={isAbout} />
+            <PlanetSystem isAbout={isOverlay} />
 
-            <Scroll html style={{ width: '100%', pointerEvents: isAbout ? 'none' : 'auto', opacity: isAbout ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+            <Scroll html style={{ width: '100%', pointerEvents: isOverlay ? 'none' : 'auto', opacity: isOverlay ? 0 : 1, transition: 'opacity 0.3s ease' }}>
 
             {/* ===== SECTION 1 — HERO ===== */}
             <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
@@ -308,21 +308,20 @@ export default function MoonScene({ currentView }) {
               </div>
             </section>
 
-            {/* ===== SECTION 3 — SKILLS ===== */}
+            {/* ===== SECTION 3 — SKILLS SUMMARY ===== */}
             <section className="h-screen flex flex-col justify-center items-end px-6 md:px-20 lg:px-32 select-none">
               <div className="max-w-md text-right glass-strong p-6 md:p-8">
                 <div className="section-line ml-auto"></div>
                 <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3 pointer-events-none">
                   02 — Skills
                 </p>
-                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-6 md:mb-8 pointer-events-none">
+                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6 pointer-events-none">
                   Tech Stack
                 </h2>
-                <div className="flex flex-wrap gap-2 md:gap-3 pointer-events-auto justify-end">
-                  {['React', 'Three.js', 'JavaScript', 'Tailwind CSS', 'HTML & CSS', 'Node.js', 'Git', 'Figma', 'Vite', 'Framer Motion'].map((skill) => (
-                    <span key={skill} className="skill-chip">{skill}</span>
-                  ))}
-                </div>
+                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
+                  I specialize in modern web technologies including React, Three.js, and Node.js. 
+                  My focus is on creating immersive 3D experiences and scalable applications.
+                </p>
               </div>
             </section>
 
