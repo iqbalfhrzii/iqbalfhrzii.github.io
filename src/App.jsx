@@ -11,18 +11,19 @@ function App() {
     <>
       <Navbar currentView={currentView} setCurrentView={setCurrentView} />
       
+      <MoonScene currentView={currentView} />
+      
       {currentView === 'home' ? (
-        <>
-          <MoonScene />
-          <Loader 
-            containerStyles={{ background: '#050505' }} // Match the dark background
-            innerStyles={{ width: '300px', backgroundColor: 'rgba(255,255,255,0.1)' }} // Glassy bar
-            barStyles={{ backgroundColor: '#ffffff' }}
-            dataInterpolation={(p) => `Loading Universe... ${p.toFixed(0)}%`}
-          />
-        </>
+        <Loader 
+          containerStyles={{ background: '#050505' }} // Match the dark background
+          innerStyles={{ width: '300px', backgroundColor: 'rgba(255,255,255,0.1)' }} // Glassy bar
+          barStyles={{ backgroundColor: '#ffffff' }}
+          dataInterpolation={(p) => `Loading Universe... ${p.toFixed(0)}%`}
+        />
       ) : (
-        <AboutPage />
+        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+          <AboutPage />
+        </div>
       )}
     </>
   )

@@ -110,7 +110,7 @@ function NebulaSkybox() {
 /* ================================================================
    PLANET SYSTEM — Bumi sebagai pusat & Bulan yang mengorbit
    ================================================================ */
-function PlanetSystem() {
+function PlanetSystem({ isAbout }) {
   const { scene: earthScene } = useGLTF('/img/3d/earth.glb');
   const { scene: moonScene } = useGLTF('/img/3d/moon.glb');
   const scroll = useScroll();
@@ -224,7 +224,7 @@ function PlanetSystem() {
   });
 
   return (
-    <group ref={systemRef} scale={isMobile ? 0.010 : 0.020} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]}>
+    <group ref={systemRef} scale={isMobile ? 0.010 : 0.020} position={isMobile ? [0.9, 0, 0] : [3.5, 0, 0]} visible={!isAbout}>
       {/* Bumi */}
       <group ref={earthRef}>
         <primitive object={earthScene} scale={1} />
@@ -243,7 +243,9 @@ function PlanetSystem() {
 /* ================================================================
    MAIN SCENE — Menggabungkan semua elemen 3D + HTML Overlay
    ================================================================ */
-export default function MoonScene() {
+export default function MoonScene({ currentView }) {
+  const isAbout = currentView === 'about';
+
   return (
     <div className="w-full h-screen bg-[#050505] overflow-hidden">
       {/* Optimization: Cap DPR for performance, use high-performance GL context */}
@@ -259,13 +261,13 @@ export default function MoonScene() {
 
         {/* Suspense delays rendering until all GLB models are loaded */}
         <React.Suspense fallback={null}>
-          <ScrollControls pages={5} damping={0.12}>
+          <ScrollControls pages={5} damping={0.12} enabled={!isAbout}>
             <NebulaSkybox />
             {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
             <ManualStars count={1800} />
-            <PlanetSystem />
+            <PlanetSystem isAbout={isAbout} />
 
-            <Scroll html style={{ width: '100%' }}>
+            <Scroll html style={{ width: '100%', pointerEvents: isAbout ? 'none' : 'auto', opacity: isAbout ? 0 : 1, transition: 'opacity 0.3s ease' }}>
 
             {/* ===== SECTION 1 — HERO ===== */}
             <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
