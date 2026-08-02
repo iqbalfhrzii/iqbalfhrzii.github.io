@@ -290,22 +290,41 @@ export default function MoonScene() {
             </section>
 
             {/* ===== SECTION 2 — ABOUT ===== */}
-            <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
-              <div className="max-w-lg glass-strong p-6 md:p-8">
-                <div className="section-line"></div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
-                  01 — About
-                </p>
-                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
-                  Who am I?
-                </h2>
-                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed mb-3 md:mb-4">
-                  I'm a passionate developer who loves creating beautiful and interactive web experiences.
-                  I believe in the power of design and technology working together to build something extraordinary.
-                </p>
-                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed">
-                  Based in Indonesia, I bring ideas to life through clean code and creative thinking.
-                </p>
+            <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none">
+              <div className="w-full max-w-5xl flex flex-col md:flex-row gap-6 md:gap-12 items-center pointer-events-none">
+                
+                {/* Photo Card Template */}
+                <div className="w-full md:w-2/5 max-w-[280px] md:max-w-none aspect-[3/4] glass-strong p-3 rounded-[32px] relative overflow-hidden group pointer-events-auto transition-transform duration-500 hover:scale-[1.02] hover:-rotate-1">
+                  {/* Image Placeholder (Nanti ganti div ini dengan tag img) */}
+                  <div className="absolute inset-3 bg-gradient-to-br from-white/10 to-white/5 rounded-[20px] border border-white/10 flex items-center justify-center overflow-hidden">
+                    <span className="text-white/30 font-body text-xs tracking-[0.2em] uppercase">Insert Photo Here</span>
+                  </div>
+                  
+                  {/* Card Info Overlay */}
+                  <div className="absolute bottom-6 left-6 right-6 z-10 glass p-4 rounded-2xl border border-white/20 transition-all duration-500 group-hover:translate-y-[-4px] group-hover:bg-white/10">
+                    <h3 className="font-display text-xl font-bold text-white mb-1">Iqbal Fahrozi</h3>
+                    <p className="font-body text-xs text-white/60 tracking-wider">Creative Developer</p>
+                  </div>
+                </div>
+
+                {/* Text Content */}
+                <div className="w-full md:w-3/5 max-w-lg md:max-w-none glass-strong p-6 md:p-10 pointer-events-auto">
+                  <div className="section-line"></div>
+                  <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
+                    01 — About
+                  </p>
+                  <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
+                    Who am I?
+                  </h2>
+                  <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed mb-3 md:mb-4">
+                    I'm a passionate developer who loves creating beautiful and interactive web experiences.
+                    I believe in the power of design and technology working together to build something extraordinary.
+                  </p>
+                  <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed">
+                    Based in Indonesia, I bring ideas to life through clean code and creative thinking.
+                  </p>
+                </div>
+
               </div>
             </section>
 
