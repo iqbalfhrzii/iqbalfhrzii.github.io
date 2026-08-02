@@ -250,8 +250,8 @@ export default function MoonScene({ currentView }) {
     <div className="w-full h-screen bg-[#050505] overflow-hidden">
       {/* Optimization: Cap DPR for performance, use high-performance GL context */}
       <Canvas
-        dpr={[1, 1.5]}
-        gl={{ powerPreference: 'high-performance', antialias: false }}
+        dpr={[1, 1.2]}
+        gl={{ powerPreference: 'high-performance', antialias: false, stencil: false, depth: true }}
         camera={{ position: [0, 0, 8], fov: 45, far: 5000 }}
       >
         {/* Lighting */}
@@ -261,10 +261,10 @@ export default function MoonScene({ currentView }) {
 
         {/* Suspense delays rendering until all GLB models are loaded */}
         <React.Suspense fallback={null}>
-          <ScrollControls pages={5} damping={0.12} enabled={!isOverlay}>
+          <ScrollControls pages={5} damping={0.25} enabled={!isOverlay}>
             <NebulaSkybox />
-            {/* Bintang-bintang manual - dioptimalkan 1800 partikel agar lancar di HP */}
-            <ManualStars count={1800} />
+            {/* Bintang-bintang manual - dikurangi ke 1200 untuk optimasi memori & GPU */}
+            <ManualStars count={1200} />
             <PlanetSystem isAbout={isOverlay} />
 
             <Scroll html style={{ width: '100%', pointerEvents: isOverlay ? 'none' : 'auto', opacity: isOverlay ? 0 : 1, transition: 'opacity 0.3s ease' }}>
