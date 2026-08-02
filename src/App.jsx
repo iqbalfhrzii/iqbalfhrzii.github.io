@@ -6,6 +6,7 @@ import AboutPage from './components/AboutPage'
 import SkillsPage from './components/SkillsPage'
 import ProjectsPage from './components/ProjectsPage'
 import ContactPage from './components/ContactPage'
+import SmoothScrollOverlay from './components/SmoothScrollOverlay'
 
 function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -26,27 +27,27 @@ function App() {
       )}
 
       {currentView === 'about' && (
-        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+        <SmoothScrollOverlay>
           <AboutPage />
-        </div>
+        </SmoothScrollOverlay>
       )}
 
       {currentView === 'skills' && (
-        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+        <SmoothScrollOverlay>
           <SkillsPage />
-        </div>
+        </SmoothScrollOverlay>
       )}
 
       {currentView === 'projects' && (
-        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+        <SmoothScrollOverlay>
           <ProjectsPage />
-        </div>
+        </SmoothScrollOverlay>
       )}
 
       {currentView === 'contact' && (
-        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+        <SmoothScrollOverlay>
           <ContactPage />
-        </div>
+        </SmoothScrollOverlay>
       )}
     </>
   )
