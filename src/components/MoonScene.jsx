@@ -289,7 +289,12 @@ export default function MoonScene({ currentView }) {
 
         {/* Suspense delays rendering until all GLB models are loaded */}
         <React.Suspense fallback={null}>
-          <ScrollControls pages={pages} damping={0.25} enabled={true}>
+          <ScrollControls 
+            pages={pages} 
+            damping={currentView === 'home' ? 0.25 : 0.1} 
+            distance={currentView === 'home' ? 1 : 1.5}
+            enabled={true}
+          >
             <NebulaSkybox />
             <ManualStars count={1200} />
             <PlanetSystem isAbout={isOverlay} />
