@@ -2,6 +2,10 @@ import React, { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, ScrollControls, Scroll, useScroll, Preload } from '@react-three/drei';
+import AboutPage from './AboutPage';
+import SkillsPage from './SkillsPage';
+import ProjectsPage from './ProjectsPage';
+import ContactPage from './ContactPage';
 
 /* ================================================================
    MANUAL STARS — 3000 partikel bintang dengan animasi scroll
@@ -245,6 +249,26 @@ function PlanetSystem({ isAbout }) {
    ================================================================ */
 export default function MoonScene({ currentView }) {
   const isOverlay = currentView !== 'home';
+  const [pages, setPages] = React.useState(5);
+  const htmlContainerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (currentView === 'home') {
+      setPages(5);
+      return;
+    }
+    
+    if (!htmlContainerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      const height = entries[0].contentRect.height;
+      const vh = window.innerHeight;
+      const newPages = Math.max(1, height / vh);
+      setPages(newPages);
+    });
+    
+    observer.observe(htmlContainerRef.current);
+    return () => observer.disconnect();
+  }, [currentView]);
 
   return (
     <div className="fixed inset-0 w-full h-screen bg-[#050505] overflow-hidden -z-10">
@@ -261,106 +285,113 @@ export default function MoonScene({ currentView }) {
 
         {/* Suspense delays rendering until all GLB models are loaded */}
         <React.Suspense fallback={null}>
-          <ScrollControls pages={5} damping={0.25} enabled={!isOverlay}>
+          <ScrollControls pages={pages} damping={0.25} enabled={true}>
             <NebulaSkybox />
-            {/* Bintang-bintang manual - dikurangi ke 1200 untuk optimasi memori & GPU */}
             <ManualStars count={1200} />
             <PlanetSystem isAbout={isOverlay} />
 
-            <Scroll html style={{ width: '100%', pointerEvents: isOverlay ? 'none' : 'auto', opacity: isOverlay ? 0 : 1, transition: 'opacity 0.3s ease' }}>
+            <Scroll html style={{ width: '100%', pointerEvents: 'auto' }}>
+              <div ref={htmlContainerRef}>
+                {currentView === 'home' && (
+                  <>
+                    {/* ===== SECTION 1 — HERO ===== */}
+                    <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
+                      <div className="max-w-2xl">
+                        <p className="font-body text-xs md:text-base tracking-[0.3em] uppercase text-white/50 mb-3 md:mb-4">
+                          Welcome to my universe
+                        </p>
+                        <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] mb-4 md:mb-6">
+                          <span className="gradient-text">Iqbal</span>
+                          <br />
+                          <span className="text-white">Fahrozi</span>
+                        </h1>
+                        <p className="font-body text-sm sm:text-lg md:text-xl text-white/60 max-w-md leading-relaxed mb-6 md:mb-8">
+                          Creative Developer crafting immersive digital experiences through code and design.
+                        </p>
+                        <div className="flex items-center gap-3 text-white/30 text-xs md:text-sm font-body">
+                          <div className="w-8 h-[1px] bg-white/30"></div>
+                          <span>scroll to explore</span>
+                          <span className="animate-bounce">↓</span>
+                        </div>
+                      </div>
+                    </section>
 
-            {/* ===== SECTION 1 — HERO ===== */}
-            <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
-              <div className="max-w-2xl">
-                <p className="font-body text-xs md:text-base tracking-[0.3em] uppercase text-white/50 mb-3 md:mb-4">
-                  Welcome to my universe
-                </p>
-                <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] mb-4 md:mb-6">
-                  <span className="gradient-text">Iqbal</span>
-                  <br />
-                  <span className="text-white">Fahrozi</span>
-                </h1>
-                <p className="font-body text-sm sm:text-lg md:text-xl text-white/60 max-w-md leading-relaxed mb-6 md:mb-8">
-                  Creative Developer crafting immersive digital experiences through code and design.
-                </p>
-                <div className="flex items-center gap-3 text-white/30 text-xs md:text-sm font-body">
-                  <div className="w-8 h-[1px] bg-white/30"></div>
-                  <span>scroll to explore</span>
-                  <span className="animate-bounce">↓</span>
-                </div>
+                    {/* ===== SECTION 2 — ABOUT SUMMARY ===== */}
+                    <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
+                      <div className="max-w-lg glass-strong p-6 md:p-8">
+                        <div className="section-line"></div>
+                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
+                          01 — About
+                        </p>
+                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
+                          Who am I?
+                        </h2>
+                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed">
+                          I'm a passionate developer based in Indonesia, focused on building accessible and interactive digital experiences. 
+                          My goal is to create products that are not only beautiful but also perform flawlessly under the hood.
+                        </p>
+                      </div>
+                    </section>
+
+                    {/* ===== SECTION 3 — SKILLS SUMMARY ===== */}
+                    <section className="h-screen flex flex-col justify-center items-end px-6 md:px-20 lg:px-32 select-none">
+                      <div className="max-w-md text-right glass-strong p-6 md:p-8">
+                        <div className="section-line ml-auto"></div>
+                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3 pointer-events-none">
+                          02 — Skills
+                        </p>
+                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6 pointer-events-none">
+                          Tech Stack
+                        </h2>
+                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
+                          I specialize in modern web technologies including React, Three.js, and Node.js. 
+                          My focus is on creating immersive 3D experiences and scalable applications.
+                        </p>
+                      </div>
+                    </section>
+
+                    {/* ===== SECTION 4 — PROJECTS SUMMARY ===== */}
+                    <section className="h-screen flex flex-col justify-center items-center px-8 md:px-20 lg:px-32 select-none">
+                      <div className="max-w-2xl w-full text-center glass-strong p-6 md:p-8">
+                        <div className="section-line mx-auto"></div>
+                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
+                          03 — Projects
+                        </p>
+                        <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
+                          Selected Work
+                        </h2>
+                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
+                          A collection of my recent projects ranging from creative coding to full-stack applications. 
+                          I build solutions that are as functional as they are beautiful.
+                        </p>
+                      </div>
+                    </section>
+
+                    {/* ===== SECTION 5 — CONTACT SUMMARY ===== */}
+                    <section className="h-screen flex flex-col justify-center px-8 md:px-20 lg:px-32 select-none">
+                      <div className="max-w-lg glass-strong p-6 md:p-8">
+                        <div className="section-line"></div>
+                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
+                          04 — Contact
+                        </p>
+                        <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
+                          Let's Connect
+                        </h2>
+                        <p className="font-body text-base md:text-lg text-white/60 leading-relaxed mb-6 pointer-events-none">
+                          I'm always open to discussing product design work or partnership opportunities. 
+                          Let's create something amazing together.
+                        </p>
+                      </div>
+                    </section>
+                  </>
+                )}
+                {currentView === 'about' && <AboutPage />}
+                {currentView === 'skills' && <SkillsPage />}
+                {currentView === 'projects' && <ProjectsPage />}
+                {currentView === 'contact' && <ContactPage />}
               </div>
-            </section>
-
-            {/* ===== SECTION 2 — ABOUT SUMMARY ===== */}
-            <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
-              <div className="max-w-lg glass-strong p-6 md:p-8">
-                <div className="section-line"></div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
-                  01 — About
-                </p>
-                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
-                  Who am I?
-                </h2>
-                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed">
-                  I'm a passionate developer based in Indonesia, focused on building accessible and interactive digital experiences. 
-                  My goal is to create products that are not only beautiful but also perform flawlessly under the hood.
-                </p>
-              </div>
-            </section>
-
-            {/* ===== SECTION 3 — SKILLS SUMMARY ===== */}
-            <section className="h-screen flex flex-col justify-center items-end px-6 md:px-20 lg:px-32 select-none">
-              <div className="max-w-md text-right glass-strong p-6 md:p-8">
-                <div className="section-line ml-auto"></div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3 pointer-events-none">
-                  02 — Skills
-                </p>
-                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6 pointer-events-none">
-                  Tech Stack
-                </h2>
-                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
-                  I specialize in modern web technologies including React, Three.js, and Node.js. 
-                  My focus is on creating immersive 3D experiences and scalable applications.
-                </p>
-              </div>
-            </section>
-
-            {/* ===== SECTION 4 — PROJECTS SUMMARY ===== */}
-            <section className="h-screen flex flex-col justify-center items-center px-8 md:px-20 lg:px-32 select-none">
-              <div className="max-w-2xl w-full text-center glass-strong p-6 md:p-8">
-                <div className="section-line mx-auto"></div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
-                  03 — Projects
-                </p>
-                <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
-                  Selected Work
-                </h2>
-                <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
-                  A collection of my recent projects ranging from creative coding to full-stack applications. 
-                  I build solutions that are as functional as they are beautiful.
-                </p>
-              </div>
-            </section>
-
-            {/* ===== SECTION 5 — CONTACT SUMMARY ===== */}
-            <section className="h-screen flex flex-col justify-center px-8 md:px-20 lg:px-32 select-none">
-              <div className="max-w-lg glass-strong p-6 md:p-8">
-                <div className="section-line"></div>
-                <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
-                  04 — Contact
-                </p>
-                <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
-                  Let's Connect
-                </h2>
-                <p className="font-body text-base md:text-lg text-white/60 leading-relaxed mb-6 pointer-events-none">
-                  I'm always open to discussing product design work or partnership opportunities. 
-                  Let's create something amazing together.
-                </p>
-              </div>
-            </section>
-
-          </Scroll>
-        </ScrollControls>
+            </Scroll>
+          </ScrollControls>
         </React.Suspense>
         <Preload all />
       </Canvas>
