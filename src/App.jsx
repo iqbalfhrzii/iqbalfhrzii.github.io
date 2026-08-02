@@ -4,6 +4,8 @@ import MoonScene from './components/MoonScene'
 import Navbar from './components/Navbar'
 import AboutPage from './components/AboutPage'
 import SkillsPage from './components/SkillsPage'
+import ProjectsPage from './components/ProjectsPage'
+import ContactPage from './components/ContactPage'
 
 function App() {
   const [currentView, setCurrentView] = useState('home');
@@ -32,6 +34,18 @@ function App() {
       {currentView === 'skills' && (
         <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
           <SkillsPage />
+        </div>
+      )}
+
+      {currentView === 'projects' && (
+        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+          <ProjectsPage />
+        </div>
+      )}
+
+      {currentView === 'contact' && (
+        <div className="fixed inset-0 z-40 overflow-y-auto pointer-events-auto">
+          <ContactPage />
         </div>
       )}
     </>

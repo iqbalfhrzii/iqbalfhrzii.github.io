@@ -27,7 +27,19 @@ export default function Navbar({ currentView, setCurrentView }) {
       return;
     }
 
-    // If currently on About or Skills page and trying to go to a home section
+    if (linkName === 'Projects') {
+      setCurrentView('projects');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    if (linkName === 'Contact') {
+      setCurrentView('contact');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // If currently on an overlay page and trying to go to Home
     if (currentView !== 'home') {
       setCurrentView('home');
       // Give MoonScene time to mount before scrolling
