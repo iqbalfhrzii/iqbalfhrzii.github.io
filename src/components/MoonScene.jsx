@@ -247,7 +247,7 @@ export default function MoonScene({ currentView }) {
   const isOverlay = currentView !== 'home';
 
   return (
-    <div className="w-full h-screen bg-[#050505] overflow-hidden">
+    <div className="fixed inset-0 w-full h-screen bg-[#050505] overflow-hidden -z-10">
       {/* Optimization: Cap DPR for performance, use high-performance GL context */}
       <Canvas
         dpr={[1, 1.2]}

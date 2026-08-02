@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { Loader } from '@react-three/drei'
+import { ReactLenis } from 'lenis/react'
 import MoonScene from './components/MoonScene'
 import Navbar from './components/Navbar'
 import AboutPage from './components/AboutPage'
 import SkillsPage from './components/SkillsPage'
 import ProjectsPage from './components/ProjectsPage'
 import ContactPage from './components/ContactPage'
-import SmoothScrollOverlay from './components/SmoothScrollOverlay'
 
 function App() {
   const [currentView, setCurrentView] = useState('home');
 
   return (
-    <>
+    <ReactLenis root options={{ lerp: 0.08, duration: 1.5, smoothWheel: true }}>
       <Navbar currentView={currentView} setCurrentView={setCurrentView} />
       
       <MoonScene currentView={currentView} />
@@ -27,29 +27,29 @@ function App() {
       )}
 
       {currentView === 'about' && (
-        <SmoothScrollOverlay>
+        <div className="relative z-40 pointer-events-auto">
           <AboutPage />
-        </SmoothScrollOverlay>
+        </div>
       )}
 
       {currentView === 'skills' && (
-        <SmoothScrollOverlay>
+        <div className="relative z-40 pointer-events-auto">
           <SkillsPage />
-        </SmoothScrollOverlay>
+        </div>
       )}
 
       {currentView === 'projects' && (
-        <SmoothScrollOverlay>
+        <div className="relative z-40 pointer-events-auto">
           <ProjectsPage />
-        </SmoothScrollOverlay>
+        </div>
       )}
 
       {currentView === 'contact' && (
-        <SmoothScrollOverlay>
+        <div className="relative z-40 pointer-events-auto">
           <ContactPage />
-        </SmoothScrollOverlay>
+        </div>
       )}
-    </>
+    </ReactLenis>
   )
 }
 
