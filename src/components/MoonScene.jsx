@@ -48,9 +48,11 @@ function ManualStars({ count = 3000 }) {
   useFrame((state, delta) => {
     if (!pointsRef.current) return;
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
+    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
+    
     pointsRef.current.rotation.y += delta * 0.005;
-    pointsRef.current.rotation.x = offset * Math.PI * 0.15;
-    pointsRef.current.rotation.z = offset * Math.PI * 0.05;
+    pointsRef.current.rotation.x = offset * pagesRatio * Math.PI * 0.15;
+    pointsRef.current.rotation.z = offset * pagesRatio * Math.PI * 0.05;
   });
 
   return (
@@ -95,9 +97,11 @@ function NebulaSkybox() {
   useFrame((state, delta) => {
     if (!meshRef.current) return;
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
+    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
+
     meshRef.current.rotation.y += delta * 0.003;
-    meshRef.current.rotation.x = offset * Math.PI * 0.15;
-    meshRef.current.rotation.z = offset * Math.PI * 0.05;
+    meshRef.current.rotation.x = offset * pagesRatio * Math.PI * 0.15;
+    meshRef.current.rotation.z = offset * pagesRatio * Math.PI * 0.05;
   });
 
   return (
