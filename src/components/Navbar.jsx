@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Navbar() {
+export default function Navbar({ currentView, setCurrentView }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -12,9 +12,30 @@ export default function Navbar() {
     { name: 'Contact', page: 4 },
   ];
 
-  const handleScrollTo = (pageIndex) => {
+  const handleScrollTo = (pageIndex, linkName) => {
     setIsOpen(false);
-    // Cari container scrollable milik Drei ScrollControls
+    
+    if (linkName === 'About') {
+      setCurrentView('about');
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // If currently on About page and trying to go to a home section
+    if (currentView === 'about') {
+      setCurrentView('home');
+      // Give MoonScene time to mount before scrolling
+      setTimeout(() => {
+        const scrollEl = document.querySelector('div[style*="overflow"]');
+        if (scrollEl) {
+          const targetY = (pageIndex / 5) * scrollEl.scrollHeight;
+          scrollEl.scrollTo({ top: targetY, behavior: 'instant' });
+        }
+      }, 100);
+      return;
+    }
+
+    // Normal scrolling if already on Home
     const scrollEl = document.querySelector('div[style*="overflow"]');
     if (scrollEl) {
       const targetY = (pageIndex / 5) * scrollEl.scrollHeight;
@@ -28,7 +49,7 @@ export default function Navbar() {
         
         {/* LOGO */}
         <button 
-          onClick={() => handleScrollTo(0)} 
+          onClick={() => handleScrollTo(0, 'Home')} 
           className="font-display font-bold text-lg md:text-xl tracking-tight text-white flex items-center gap-1 group cursor-pointer border-none bg-transparent"
         >
           <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 group-hover:scale-125 transition-transform duration-300"></span>
@@ -41,8 +62,8 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <li key={link.name}>
               <button
-                onClick={() => handleScrollTo(link.page)}
-                className="font-body text-xs lg:text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full hover:bg-white/10 transition-all duration-200 border-none bg-transparent cursor-pointer"
+                onClick={() => handleScrollTo(link.page, link.name)}
+                className={`font-body text-xs lg:text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 border-none bg-transparent cursor-pointer ${currentView === 'about' && link.name === 'About' ? 'text-white bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
               >
                 {link.name}
               </button>
@@ -53,7 +74,7 @@ export default function Navbar() {
         {/* CTA BUTTON DESKTOP */}
         <div className="hidden md:block">
           <button
-            onClick={() => handleScrollTo(4)}
+            onClick={() => handleScrollTo(4, 'Contact')}
             className="cta-btn !py-2 !px-5 !text-xs font-semibold"
           >
             Hire Me ✨
@@ -82,14 +103,14 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <button
               key={link.name}
-              onClick={() => handleScrollTo(link.page)}
-              className="font-body text-base font-medium text-white/80 hover:text-white text-left py-2 px-3 rounded-lg hover:bg-white/10 transition-colors border-none bg-transparent cursor-pointer"
+              onClick={() => handleScrollTo(link.page, link.name)}
+              className={`font-body text-base font-medium text-left py-2 px-3 rounded-lg transition-colors border-none bg-transparent cursor-pointer ${currentView === 'about' && link.name === 'About' ? 'text-white bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
             >
               {link.name}
             </button>
           ))}
           <button
-            onClick={() => handleScrollTo(4)}
+            onClick={() => handleScrollTo(4, 'Contact')}
             className="cta-btn w-full justify-center mt-2 !py-3 !text-sm"
           >
             Hire Me ✨
