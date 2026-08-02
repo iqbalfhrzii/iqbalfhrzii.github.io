@@ -10,7 +10,7 @@ import ContactPage from './ContactPage';
 /* ================================================================
    MANUAL STARS — 3000 partikel bintang dengan animasi scroll
    ================================================================ */
-function ManualStars({ count = 3000 }) {
+function ManualStars({ count = 3000, distanceRatio = 1 }) {
   const pointsRef = useRef();
 
   const { geometry, material } = useMemo(() => {
@@ -51,8 +51,8 @@ function ManualStars({ count = 3000 }) {
     const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
     
     pointsRef.current.rotation.y += delta * 0.005;
-    pointsRef.current.rotation.x = offset * pagesRatio * Math.PI * 0.15;
-    pointsRef.current.rotation.z = offset * pagesRatio * Math.PI * 0.05;
+    pointsRef.current.rotation.x = offset * pagesRatio * distanceRatio * Math.PI * 0.15;
+    pointsRef.current.rotation.z = offset * pagesRatio * distanceRatio * Math.PI * 0.05;
   });
 
   return (
@@ -68,7 +68,7 @@ function ManualStars({ count = 3000 }) {
 /* ================================================================
    NEBULA SKYBOX — Bola langit dengan tekstur dari GLB
    ================================================================ */
-function NebulaSkybox() {
+function NebulaSkybox({ distanceRatio = 1 }) {
   const { scene: originalScene } = useGLTF('/img/3d/nebula_skybox_16k.glb');
   const scroll = useScroll();
   const meshRef = useRef();
@@ -100,8 +100,8 @@ function NebulaSkybox() {
     const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
 
     meshRef.current.rotation.y += delta * 0.003;
-    meshRef.current.rotation.x = offset * pagesRatio * Math.PI * 0.15;
-    meshRef.current.rotation.z = offset * pagesRatio * Math.PI * 0.05;
+    meshRef.current.rotation.x = offset * pagesRatio * distanceRatio * Math.PI * 0.15;
+    meshRef.current.rotation.z = offset * pagesRatio * distanceRatio * Math.PI * 0.05;
   });
 
   return (
@@ -295,8 +295,8 @@ export default function MoonScene({ currentView }) {
             distance={currentView === 'home' ? 1 : 0.5}
             enabled={true}
           >
-            <NebulaSkybox />
-            <ManualStars count={1200} />
+            <NebulaSkybox distanceRatio={currentView === 'home' ? 1 : 0.5} />
+            <ManualStars count={1200} distanceRatio={currentView === 'home' ? 1 : 0.5} />
             <PlanetSystem isAbout={isOverlay} />
 
             <Scroll html style={{ width: '100%', pointerEvents: 'auto' }}>
