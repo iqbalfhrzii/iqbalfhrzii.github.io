@@ -54,20 +54,7 @@ export default function ContactPage() {
             Have a project in mind, a freelance opportunity, or just want to say hi?
             I'm currently open for new opportunities and would love to hear from you.
           </p>
-
           <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                <span className="text-xl">📧</span>
-              </div>
-              <div>
-                <p className="text-xs text-white/40 font-body uppercase tracking-wider mb-1">Email</p>
-                <a href="mailto:hello@iqbalfahrozi.my.id" className="text-white hover:text-indigo-400 transition-colors font-medium">
-                  hello@iqbalfahrozi.my.id
-                </a>
-              </div>
-            </div>
-
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                 <span className="text-xl">📍</span>
