@@ -12,20 +12,20 @@ export default function ContactPage() {
     setSubmitStatus(null);
 
     // GANTI INI DENGAN KREDENSIAL EMAILJS KAMU
-    const SERVICE_ID = 'YOUR_SERVICE_ID';
+    const SERVICE_ID = 'service_kv5jxcg';
     const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+    const PUBLIC_KEY = 'mkoLMu7KVWLZDV9Ng';
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
       .then((result) => {
-          console.log(result.text);
-          setSubmitStatus('success');
-          setIsSubmitting(false);
-          e.target.reset();
+        console.log(result.text);
+        setSubmitStatus('success');
+        setIsSubmitting(false);
+        e.target.reset();
       }, (error) => {
-          console.log(error.text);
-          setSubmitStatus('error');
-          setIsSubmitting(false);
+        console.log(error.text);
+        setSubmitStatus('error');
+        setIsSubmitting(false);
       });
   };
 
@@ -99,10 +99,10 @@ export default function ContactPage() {
           <div className="glass-strong p-8 rounded-[32px] flex-1 flex flex-col">
             <h3 className="font-display text-xl font-bold text-white mb-6">Drop a message</h3>
             <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 flex-1">
-              <input type="text" name="user_name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
-              <input type="email" name="user_email" placeholder="Your Email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
+              <input type="text" name="name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
+              <input type="email" name="email" placeholder="Your Email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
               <textarea name="message" placeholder="Your Message" rows="4" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors resize-none flex-1"></textarea>
-              
+
               <button type="submit" disabled={isSubmitting} className="cta-btn mt-2 !w-full justify-center disabled:opacity-70 disabled:cursor-not-allowed">
                 {isSubmitting ? 'Sending...' : 'Send Message ✨'}
               </button>
