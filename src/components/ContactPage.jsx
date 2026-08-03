@@ -1,6 +1,34 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
+  const form = useRef();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // GANTI INI DENGAN KREDENSIAL EMAILJS KAMU
+    const SERVICE_ID = 'YOUR_SERVICE_ID';
+    const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+      .then((result) => {
+          console.log(result.text);
+          setSubmitStatus('success');
+          setIsSubmitting(false);
+          e.target.reset();
+      }, (error) => {
+          console.log(error.text);
+          setSubmitStatus('error');
+          setIsSubmitting(false);
+      });
+  };
+
   return (
     <div className="min-h-screen pt-28 pb-20 px-6 md:px-12 max-w-5xl mx-auto flex flex-col justify-center animate-in fade-in slide-in-from-bottom-8 duration-700 pointer-events-auto">
 
@@ -67,16 +95,24 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Quick Contact Form Placeholder */}
+          {/* Quick Contact Form */}
           <div className="glass-strong p-8 rounded-[32px] flex-1 flex flex-col">
             <h3 className="font-display text-xl font-bold text-white mb-6">Drop a message</h3>
-            <form action="https://formsubmit.co/iqbalfahrozi42@gmail.com" method="POST" className="flex flex-col gap-4 flex-1">
-              <input type="hidden" name="_subject" value="New message from Portfolio!" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="text" name="name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
-              <input type="email" name="email" placeholder="Your Email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
+            <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 flex-1">
+              <input type="text" name="user_name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
+              <input type="email" name="user_email" placeholder="Your Email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
               <textarea name="message" placeholder="Your Message" rows="4" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors resize-none flex-1"></textarea>
-              <button type="submit" className="cta-btn mt-2 !w-full justify-center">Send Message ✨</button>
+              
+              <button type="submit" disabled={isSubmitting} className="cta-btn mt-2 !w-full justify-center disabled:opacity-70 disabled:cursor-not-allowed">
+                {isSubmitting ? 'Sending...' : 'Send Message ✨'}
+              </button>
+
+              {submitStatus === 'success' && (
+                <p className="text-green-400 text-sm font-body mt-2 text-center">Message sent successfully!</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-400 text-sm font-body mt-2 text-center">Failed to send message. Please check your credentials.</p>
+              )}
             </form>
           </div>
 
