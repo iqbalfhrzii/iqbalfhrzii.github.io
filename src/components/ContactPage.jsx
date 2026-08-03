@@ -27,8 +27,8 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-xs text-white/40 font-body uppercase tracking-wider mb-1">Email</p>
-                <a href="mailto:hello@iqbalfahrozi.my.id" className="text-white hover:text-indigo-400 transition-colors font-medium">
-                  hello@iqbalfahrozi.my.id
+                <a href="mailto:iqbalfahrozi42@gmail.com" className="text-white hover:text-indigo-400 transition-colors font-medium">
+                  iqbalfahrozi42@gmail.com
                 </a>
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function ContactPage() {
           {/* Quick Contact Form Placeholder */}
           <div className="glass-strong p-8 rounded-[32px] flex-1 flex flex-col">
             <h3 className="font-display text-xl font-bold text-white mb-6">Drop a message</h3>
-            <form action="https://formsubmit.co/hello@iqbalfahrozi.my.id" method="POST" className="flex flex-col gap-4 flex-1">
+            <form action="https://formsubmit.co/iqbalfahrozi42@gmail.com" method="POST" className="flex flex-col gap-4 flex-1">
               <input type="hidden" name="_subject" value="New message from Portfolio!" />
               <input type="hidden" name="_template" value="table" />
               <input type="text" name="name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
