@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
-  const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
@@ -11,19 +10,27 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
+    const formData = new FormData(e.target);
+    const templateParams = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+      time: new Date().toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })
+    };
+
     // GANTI INI DENGAN KREDENSIAL EMAILJS KAMU
     const SERVICE_ID = 'service_kv5jxcg';
-    const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    const TEMPLATE_ID = 'template_n8pbagi';
     const PUBLIC_KEY = 'mkoLMu7KVWLZDV9Ng';
 
-    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
       .then((result) => {
-        console.log(result.text);
+        console.log('SUCCESS!', result.status, result.text);
         setSubmitStatus('success');
         setIsSubmitting(false);
         e.target.reset();
       }, (error) => {
-        console.log(error.text);
+        console.log('FAILED...', error);
         setSubmitStatus('error');
         setIsSubmitting(false);
       });
@@ -98,7 +105,7 @@ export default function ContactPage() {
           {/* Quick Contact Form */}
           <div className="glass-strong p-8 rounded-[32px] flex-1 flex flex-col">
             <h3 className="font-display text-xl font-bold text-white mb-6">Drop a message</h3>
-            <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4 flex-1">
+            <form onSubmit={sendEmail} className="flex flex-col gap-4 flex-1">
               <input type="text" name="name" placeholder="Your Name" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
               <input type="email" name="email" placeholder="Your Email" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors" />
               <textarea name="message" placeholder="Your Message" rows="4" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-body text-sm focus:outline-none focus:border-indigo-500/50 transition-colors resize-none flex-1"></textarea>
