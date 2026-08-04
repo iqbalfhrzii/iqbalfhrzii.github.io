@@ -331,8 +331,9 @@ export default function MoonScene({ currentView }) {
                     </section>
 
                     {/* ===== SECTION 2 — ABOUT SUMMARY ===== */}
-                    <section className="h-screen flex flex-col justify-center px-6 md:px-20 lg:px-32 select-none pointer-events-none">
-                      <div className="max-w-lg glass-strong p-6 md:p-8">
+                    <section className="h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-20 lg:px-32 select-none pointer-events-none gap-8">
+                      {/* Left: Text */}
+                      <div className="w-full max-w-lg glass-strong p-6 md:p-8">
                         <div className="section-line"></div>
                         <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
                           01 — About
@@ -344,6 +345,15 @@ export default function MoonScene({ currentView }) {
                           I'm a passionate developer based in Indonesia, focused on building accessible and interactive digital experiences. 
                           My goal is to create products that are not only beautiful but also perform flawlessly under the hood.
                         </p>
+                      </div>
+
+                      {/* Right: Photo Frame */}
+                      <div className="hidden md:block w-64 h-64 lg:w-80 lg:h-80 glass p-2 rounded-2xl rotate-3 transition-transform duration-500 shadow-2xl">
+                        <img 
+                          src="https://via.placeholder.com/600x600/1e1e2f/ffffff?text=Your+Photo" 
+                          alt="Iqbal Fahrozi" 
+                          className="w-full h-full object-cover rounded-xl"
+                        />
                       </div>
                     </section>
 
