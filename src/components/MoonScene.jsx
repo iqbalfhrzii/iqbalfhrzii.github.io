@@ -354,16 +354,18 @@ export default function MoonScene({ currentView }) {
 
                     {/* ===== SECTION 2 — ABOUT SUMMARY ===== */}
                     <section className="h-screen flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 lg:px-32 select-none pointer-events-none gap-4 md:gap-8 pt-20 md:pt-0">
-                      {/* Left: Text */}
-                      <div className="w-full max-w-lg glass-strong p-6 md:p-8">
-                        <div className="section-line"></div>
-                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3">
-                          01 — About
-                        </p>
+                      {/* Left: Text (OLED / High Performance Style) */}
+                      <div className="w-full max-w-lg bg-[#050508] border-l-4 border-indigo-500 p-6 md:p-8 rounded-r-2xl shadow-none pointer-events-auto">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-2 h-2 bg-indigo-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]"></div>
+                          <p className="font-body text-xs tracking-[0.3em] uppercase text-indigo-400">
+                            01 — About
+                          </p>
+                        </div>
                         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
                           Who am I?
                         </h2>
-                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed">
+                        <p className="font-body text-sm md:text-lg text-white/70 leading-relaxed">
                           I'm a passionate developer based in Indonesia, focused on building accessible and interactive digital experiences.
                           My goal is to create products that are not only beautiful but also perform flawlessly under the hood.
                         </p>
