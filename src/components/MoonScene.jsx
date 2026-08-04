@@ -396,7 +396,7 @@ export default function MoonScene({ currentView }) {
                           <div className="w-2 h-2 bg-emerald-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
                         </div>
                         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6 text-right">
-                          Tech Stack
+                          Tools & Technologies
                         </h2>
                         <p className="font-body text-sm md:text-lg text-white/70 leading-relaxed mb-6 text-right">
                           I specialize in modern web and mobile technologies. My focus is on creating immersive 3D experiences, scalable applications, and AI integrations.
