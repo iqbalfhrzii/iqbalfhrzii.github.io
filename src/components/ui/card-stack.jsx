@@ -129,11 +129,11 @@ export function CardStack({
         onKeyDown={onKeyDown}
       >
         <div
-          className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-indigo-500/10 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-indigo-500/5"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-indigo-900/30 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-indigo-900/10"
           aria-hidden="true"
         />
 
@@ -186,7 +186,7 @@ export function CardStack({
                 <motion.div
                   key={item.id}
                   className={cn(
-                    "absolute bottom-0 rounded-[2rem] border-[1px] border-white/20 overflow-hidden shadow-2xl backdrop-blur-md bg-white/5",
+                    "absolute bottom-0 rounded-[2rem] border-[1px] border-white/20 overflow-hidden shadow-2xl bg-black/90",
                     "will-change-transform select-none",
                     isActive
                       ? "cursor-grab active:cursor-grabbing"
