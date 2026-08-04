@@ -9,7 +9,8 @@ export default function Navbar({ currentView, setCurrentView }) {
     { name: 'About', page: 1 },
     { name: 'Skills', page: 2 },
     { name: 'Projects', page: 3 },
-    { name: 'Contact', page: 4 },
+    { name: 'Certificates', page: 4 },
+    { name: 'Contact', page: 5 },
   ];
 
   const handleScrollTo = (pageIndex, linkName) => {
@@ -33,6 +34,12 @@ export default function Navbar({ currentView, setCurrentView }) {
       return;
     }
 
+    if (linkName === 'Certificates') {
+      setCurrentView('certificates');
+      window.scrollTo(0, 0);
+      return;
+    }
+
     if (linkName === 'Contact') {
       setCurrentView('contact');
       window.scrollTo(0, 0);
@@ -46,7 +53,7 @@ export default function Navbar({ currentView, setCurrentView }) {
       setTimeout(() => {
         const scrollEl = document.querySelector('div[style*="overflow"]');
         if (scrollEl) {
-          const targetY = (pageIndex / 5) * scrollEl.scrollHeight;
+          const targetY = (pageIndex / 6) * scrollEl.scrollHeight;
           scrollEl.scrollTo({ top: targetY, behavior: 'instant' });
         }
       }, 100);
@@ -56,7 +63,7 @@ export default function Navbar({ currentView, setCurrentView }) {
     // Normal scrolling if already on Home
     const scrollEl = document.querySelector('div[style*="overflow"]');
     if (scrollEl) {
-      const targetY = (pageIndex / 5) * scrollEl.scrollHeight;
+      const targetY = (pageIndex / 6) * scrollEl.scrollHeight;
       scrollEl.scrollTo({ top: targetY, behavior: 'smooth' });
     }
   };
@@ -92,7 +99,7 @@ export default function Navbar({ currentView, setCurrentView }) {
         {/* CTA BUTTON DESKTOP */}
         <div className="hidden md:block">
           <button
-            onClick={() => handleScrollTo(4, 'Contact')}
+            onClick={() => handleScrollTo(5, 'Contact')}
             className="cta-btn !py-2 !px-5 !text-xs font-semibold"
           >
             Hire Me ✨
@@ -128,7 +135,7 @@ export default function Navbar({ currentView, setCurrentView }) {
             </button>
           ))}
           <button
-            onClick={() => handleScrollTo(4, 'Contact')}
+            onClick={() => handleScrollTo(5, 'Contact')}
             className="cta-btn w-full justify-center mt-2 !py-3 !text-sm"
           >
             Hire Me ✨

@@ -5,6 +5,7 @@ import { useGLTF, ScrollControls, Scroll, useScroll, Preload } from '@react-thre
 import AboutPage from './AboutPage';
 import SkillsPage from './SkillsPage';
 import ProjectsPage from './ProjectsPage';
+import CertificatesPage from './CertificatesPage';
 import ContactPage from './ContactPage';
 
 /* ================================================================
@@ -48,7 +49,7 @@ function ManualStars({ count = 3000, distanceRatio = 1 }) {
   useFrame((state, delta) => {
     if (!pointsRef.current) return;
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
-    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
+    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 6 : 1;
     
     pointsRef.current.rotation.y += delta * 0.005;
     pointsRef.current.rotation.x = offset * pagesRatio * distanceRatio * Math.PI * 0.15;
@@ -97,7 +98,7 @@ function NebulaSkybox({ distanceRatio = 1 }) {
   useFrame((state, delta) => {
     if (!meshRef.current) return;
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
-    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 5 : 1;
+    const pagesRatio = (scroll && scroll.pages) ? scroll.pages / 6 : 1;
 
     meshRef.current.rotation.y += delta * 0.003;
     meshRef.current.rotation.x = offset * pagesRatio * distanceRatio * Math.PI * 0.15;
@@ -142,7 +143,9 @@ function PlanetSystem({ isAbout }) {
     { x: -2.8,y: 0,    z: 1.0, scale: 0.015, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
     // Section 4 (Projects): Earth + Moon
     { x: 0,   y: 0,    z: 2.5, scale: 0.025, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
-    // Section 5 (Contact): Bumi tidak muter ke bawah
+    // Section 5 (Certificates): Earth + Moon, slightly left
+    { x: -1.5,y: 0,    z: 1.5, scale: 0.020, rotX: Math.PI * 0.1,  rotZ: -Math.PI * 0.1,earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.25 },
+    // Section 6 (Contact): Bumi tidak muter ke bawah
     { x: 0,   y: -3.0, z: 1,   scale: 0.034, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
   ];
 
@@ -156,7 +159,9 @@ function PlanetSystem({ isAbout }) {
     { x: -1.4,y: 0,    z: 0.8, scale: 0.018, rotX: 0,              rotZ: Math.PI * 0.1, earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
     // Section 4 (Projects)
     { x: 0,   y: 0,    z: 1.5, scale: 0.016, rotX: Math.PI * 0.15, rotZ: 0,             earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
-    // Section 5 (Contact)
+    // Section 5 (Certificates)
+    { x: -0.8,y: 0,    z: 1.0, scale: 0.014, rotX: Math.PI * 0.1,  rotZ: -Math.PI * 0.1,earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.25 },
+    // Section 6 (Contact)
     { x: 0,   y: -3.0, z: 0.5, scale: 0.024, rotX: Math.PI * 0.15, rotZ: Math.PI * 0.2, earthScale: 1.0,   moonScale: 0.4, moonPos: [180, 15, -60], orbitSpeed: 0.3 },
   ];
 
@@ -171,7 +176,7 @@ function PlanetSystem({ isAbout }) {
 
     const offset = (scroll && typeof scroll.offset === 'number' && !isNaN(scroll.offset)) ? scroll.offset : 0;
 
-    const totalSections = 5;
+    const totalSections = 6;
     const sectionFloat = Math.max(0, Math.min(offset * (totalSections - 1), totalSections - 1));
     const sectionIndex = Math.min(Math.floor(sectionFloat), totalSections - 2);
     const rawT = sectionFloat - sectionIndex;
@@ -253,12 +258,12 @@ function PlanetSystem({ isAbout }) {
    ================================================================ */
 export default function MoonScene({ currentView }) {
   const isOverlay = currentView !== 'home';
-  const [pages, setPages] = React.useState(5);
+  const [pages, setPages] = React.useState(6);
   const htmlContainerRef = React.useRef(null);
 
   React.useEffect(() => {
     if (currentView === 'home') {
-      setPages(5);
+      setPages(6);
       return;
     }
     
@@ -376,12 +381,28 @@ export default function MoonScene({ currentView }) {
                       </div>
                     </section>
 
-                    {/* ===== SECTION 5 — CONTACT SUMMARY ===== */}
+                    {/* ===== SECTION 5 — CERTIFICATES SUMMARY ===== */}
+                    <section className="h-screen flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 select-none">
+                      <div className="max-w-md text-right glass-strong p-6 md:p-8">
+                        <div className="section-line ml-auto"></div>
+                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
+                          04 — Certificates
+                        </p>
+                        <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
+                          Credentials
+                        </h2>
+                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
+                          Professional achievements and certifications that validate my expertise and commitment to continuous learning.
+                        </p>
+                      </div>
+                    </section>
+
+                    {/* ===== SECTION 6 — CONTACT SUMMARY ===== */}
                     <section className="h-screen flex flex-col justify-center px-8 md:px-20 lg:px-32 select-none">
                       <div className="max-w-lg glass-strong p-6 md:p-8">
                         <div className="section-line"></div>
                         <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
-                          04 — Contact
+                          05 — Contact
                         </p>
                         <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-4 pointer-events-none">
                           Let's Connect
@@ -397,6 +418,7 @@ export default function MoonScene({ currentView }) {
                 {currentView === 'about' && <AboutPage />}
                 {currentView === 'skills' && <SkillsPage />}
                 {currentView === 'projects' && <ProjectsPage />}
+                {currentView === 'certificates' && <CertificatesPage />}
                 {currentView === 'contact' && <ContactPage />}
               </div>
             </Scroll>
