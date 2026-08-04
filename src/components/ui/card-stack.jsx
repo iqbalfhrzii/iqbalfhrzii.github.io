@@ -186,11 +186,11 @@ export function CardStack({
                 <motion.div
                   key={item.id}
                   className={cn(
-                    "absolute bottom-0 rounded-[2rem] border-[1px] border-white/20 overflow-hidden shadow-2xl bg-black/90",
+                    "absolute bottom-0 rounded-[2rem] border-2 border-indigo-500/30 overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.8)] bg-[#050508]",
                     "will-change-transform select-none",
                     isActive
-                      ? "cursor-grab active:cursor-grabbing"
-                      : "cursor-pointer"
+                      ? "cursor-grab active:cursor-grabbing hover:border-indigo-500/80 transition-colors duration-300"
+                      : "cursor-pointer hover:border-indigo-500/50 transition-colors duration-300"
                   )}
                   style={{
                     width: cardWidth,
