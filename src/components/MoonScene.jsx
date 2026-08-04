@@ -428,6 +428,30 @@ export default function MoonScene({ currentView }) {
                             <span className="text-white/80 text-sm font-body">Laravel</span>
                           </div>
                           
+                          {/* Python */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" className="w-5 h-5" />
+                            <span className="text-white/80 text-sm font-body">Python</span>
+                          </div>
+
+                          {/* Unity */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" alt="Unity" className="w-5 h-5 bg-white/90 rounded-[4px] p-0.5" />
+                            <span className="text-white/80 text-sm font-body">Unity</span>
+                          </div>
+
+                          {/* Vue */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg" alt="Vue" className="w-5 h-5" />
+                            <span className="text-white/80 text-sm font-body">Vue</span>
+                          </div>
+
+                          {/* Figma */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" className="w-5 h-5" />
+                            <span className="text-white/80 text-sm font-body">Figma</span>
+                          </div>
+                          
                           {/* AI */}
                           <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
                             <BrainCircuit className="w-5 h-5 text-emerald-400" />
