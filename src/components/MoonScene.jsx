@@ -353,7 +353,7 @@ export default function MoonScene({ currentView }) {
                     </section>
 
                     {/* ===== SECTION 2 — ABOUT SUMMARY ===== */}
-                    <section className="h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-20 lg:px-32 select-none pointer-events-none gap-8">
+                    <section className="h-screen flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 lg:px-32 select-none pointer-events-none gap-4 md:gap-8 pt-20 md:pt-0">
                       {/* Left: Text */}
                       <div className="w-full max-w-lg glass-strong p-6 md:p-8">
                         <div className="section-line"></div>
@@ -369,8 +369,8 @@ export default function MoonScene({ currentView }) {
                         </p>
                       </div>
 
-                      {/* Right: Photo Frame (Themed) */}
-                      <div className="hidden md:flex w-72 lg:w-96 items-center justify-center -mt-10 mr-10 relative z-10">
+                      {/* Right: Photo Frame / Card Stack */}
+                      <div className="flex w-full md:w-72 lg:w-96 items-center justify-center md:-mt-10 md:mr-10 relative z-10 scale-90 md:scale-100 origin-top">
                         <CardStack 
                           items={photoCards} 
                           autoAdvance 
