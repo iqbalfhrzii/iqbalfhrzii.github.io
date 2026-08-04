@@ -8,6 +8,7 @@ import ProjectsPage from './ProjectsPage';
 import CertificatesPage from './CertificatesPage';
 import ContactPage from './ContactPage';
 import { CardStack } from './ui/card-stack';
+import { BrainCircuit } from 'lucide-react'; // Import for AI icon
 
 const photoCards = [
   {
@@ -384,21 +385,59 @@ export default function MoonScene({ currentView }) {
                       </div>
                     </section>
 
-                    {/* ===== SECTION 3 — SKILLS SUMMARY ===== */}
-                    <section className="h-screen flex flex-col justify-center items-end px-6 md:px-20 lg:px-32 select-none">
-                      <div className="max-w-md text-right glass-strong p-6 md:p-8">
-                        <div className="section-line ml-auto"></div>
-                        <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-2 md:mb-3 pointer-events-none">
-                          02 — Skills
-                        </p>
-                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6 pointer-events-none">
+                    {/* ===== SECTION 3 — SKILLS ===== */}
+                    <section className="h-screen flex flex-col md:flex-row items-center justify-center md:justify-between px-6 md:px-20 lg:px-32 select-none pointer-events-none gap-8 pt-20 md:pt-0">
+                      {/* Left: Text (OLED / High Performance Style) */}
+                      <div className="w-full max-w-lg bg-[#050508] border-l-4 border-emerald-500 p-6 md:p-8 rounded-r-2xl shadow-none pointer-events-auto">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-2 h-2 bg-emerald-500 animate-pulse rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                          <p className="font-body text-xs tracking-[0.3em] uppercase text-emerald-400">
+                            02 — Skills
+                          </p>
+                        </div>
+                        <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-4 md:mb-6">
                           Tech Stack
                         </h2>
-                        <p className="font-body text-sm md:text-lg text-white/60 leading-relaxed pointer-events-none">
-                          I specialize in modern web technologies including React, Three.js, and Node.js.
-                          My focus is on creating immersive 3D experiences and scalable applications.
+                        <p className="font-body text-sm md:text-lg text-white/70 leading-relaxed mb-6">
+                          I specialize in modern web and mobile technologies. My focus is on creating immersive 3D experiences, scalable applications, and AI integrations.
                         </p>
+                        
+                        {/* Tech Stack Logos */}
+                        <div className="flex flex-wrap gap-3 md:gap-4">
+                          {/* Flutter */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" alt="Flutter" className="w-5 h-5" />
+                            <span className="text-white/80 text-sm font-body">Flutter</span>
+                          </div>
+                          
+                          {/* React */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React" className="w-5 h-5 animate-[spin_10s_linear_infinite]" />
+                            <span className="text-white/80 text-sm font-body">React</span>
+                          </div>
+                          
+                          {/* JavaScript */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript" className="w-5 h-5 rounded-sm" />
+                            <span className="text-white/80 text-sm font-body">JavaScript</span>
+                          </div>
+                          
+                          {/* Laravel */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg" alt="Laravel" className="w-5 h-5" />
+                            <span className="text-white/80 text-sm font-body">Laravel</span>
+                          </div>
+                          
+                          {/* AI */}
+                          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 hover:bg-white/10 transition-colors">
+                            <BrainCircuit className="w-5 h-5 text-emerald-400" />
+                            <span className="text-white/80 text-sm font-body">AI</span>
+                          </div>
+                        </div>
                       </div>
+
+                      {/* Right: Blank / Visual element to balance */}
+                      <div className="hidden md:block w-72 lg:w-96" />
                     </section>
 
                     {/* ===== SECTION 4 — PROJECTS SUMMARY ===== */}
