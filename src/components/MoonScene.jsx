@@ -7,6 +7,28 @@ import SkillsPage from './SkillsPage';
 import ProjectsPage from './ProjectsPage';
 import CertificatesPage from './CertificatesPage';
 import ContactPage from './ContactPage';
+import { CardStack } from './ui/card-stack';
+
+const photoCards = [
+  {
+    id: 1,
+    title: "Hi, I'm Iqbal",
+    description: "Creative developer crafting immersive web experiences.",
+    imageSrc: "/img/me/Pas Foto - Iqbal Fahrozia.jpg",
+  },
+  {
+    id: 2,
+    title: "My Workspace",
+    description: "Code, coffee, and 3D graphics. Where the magic happens.",
+    imageSrc: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    title: "Always Learning",
+    description: "Exploring new tech to push the boundaries of the web.",
+    imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
+  }
+];
 
 /* ================================================================
    MANUAL STARS — 3000 partikel bintang dengan animasi scroll
@@ -348,21 +370,15 @@ export default function MoonScene({ currentView }) {
                       </div>
 
                       {/* Right: Photo Frame (Themed) */}
-                      <div className="hidden md:block w-64 h-64 lg:w-80 lg:h-80 glass p-3 rounded-full rotate-3 hover:rotate-0 transition-transform duration-500 shadow-2xl group relative">
-                        {/* Inner container for masking */}
-                        <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
-                          {/* Colored overlay to blend with space theme */}
-                          <div className="absolute inset-0 bg-indigo-900/40 mix-blend-color z-10 group-hover:bg-transparent transition-colors duration-700 pointer-events-none"></div>
-                          
-                          <img
-                            src="/img/me/Pas Foto - Iqbal Fahrozia.jpg"
-                            alt="Iqbal Fahrozi"
-                            className="w-full h-full object-cover grayscale contrast-125 brightness-90 group-hover:grayscale-0 transition-all duration-700"
-                          />
-                        </div>
-                        
-                        {/* Glow effect behind the image */}
-                        <div className="absolute -inset-4 bg-indigo-500/20 rounded-full blur-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                      <div className="hidden md:flex w-72 lg:w-96 items-center justify-center -mt-10 mr-10 relative z-10">
+                        <CardStack 
+                          items={photoCards} 
+                          autoAdvance 
+                          intervalMs={3000} 
+                          showDots={true} 
+                          cardWidth={260}
+                          cardHeight={300}
+                        />
                       </div>
                     </section>
 
