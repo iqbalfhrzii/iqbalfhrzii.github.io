@@ -7,6 +7,7 @@ import SkillsPage from './SkillsPage';
 import ProjectsPage from './ProjectsPage';
 import CertificatesPage from './CertificatesPage';
 import ContactPage from './ContactPage';
+import Footer from './Footer';
 import { CardStack } from './ui/card-stack';
 import { BrainCircuit } from 'lucide-react'; // Import for AI icon
 
@@ -498,8 +499,9 @@ export default function MoonScene({ currentView }) {
                     </section>
 
                     {/* ===== SECTION 6 — CONTACT SUMMARY ===== */}
-                    <section className="h-screen flex flex-col justify-center px-8 md:px-20 lg:px-32 select-none">
-                      <div className="max-w-lg glass-strong p-6 md:p-8">
+                    <section className="h-screen flex flex-col justify-between px-6 md:px-20 lg:px-32 pt-20 md:pt-28 pb-6 md:pb-8 select-none pointer-events-none">
+                      <div />
+                      <div className="max-w-lg glass-strong p-6 md:p-8 pointer-events-auto">
                         <div className="section-line"></div>
                         <p className="font-body text-xs tracking-[0.3em] uppercase text-white/40 mb-3 pointer-events-none">
                           05 — Contact
@@ -512,14 +514,27 @@ export default function MoonScene({ currentView }) {
                           Let's create something amazing together.
                         </p>
                       </div>
+
+                      <div className="w-full">
+                        <Footer />
+                      </div>
                     </section>
                   </>
                 )}
-                {currentView === 'about' && <AboutPage />}
-                {currentView === 'skills' && <SkillsPage />}
-                {currentView === 'projects' && <ProjectsPage />}
-                {currentView === 'certificates' && <CertificatesPage />}
-                {currentView === 'contact' && <ContactPage />}
+                {currentView !== 'home' && (
+                  <div className="flex flex-col min-h-screen">
+                    <div className="flex-1">
+                      {currentView === 'about' && <AboutPage />}
+                      {currentView === 'skills' && <SkillsPage />}
+                      {currentView === 'projects' && <ProjectsPage />}
+                      {currentView === 'certificates' && <CertificatesPage />}
+                      {currentView === 'contact' && <ContactPage />}
+                    </div>
+                    <div className="px-6 md:px-12 max-w-6xl mx-auto w-full pb-8">
+                      <Footer />
+                    </div>
+                  </div>
+                )}
               </div>
             </Scroll>
           </ScrollControls>
